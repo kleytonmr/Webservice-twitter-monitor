@@ -1,6 +1,7 @@
 from TwitterSearch import *
 import credentials as lc
 import re
+from pprint import pprint
 
 tso = TwitterSearchOrder()
 tso.set_language('pt')
@@ -10,9 +11,10 @@ ts = TwitterSearch(
       lc.Loadcredentials(2), 
       lc.Loadcredentials(3)
     )
+		
 def remove_urls (text):
-    text = re.sub(r'(https|http)?:\/\/(\w|\.|\/|\?|\=|\&|\%)*\b', '', text, flags=re.MULTILINE)
-    return(text)
+	text = re.sub(r'(https|http)?:\/\/(\w|\.|\/|\?|\=|\&|\%)*\b', '', text, flags=re.MULTILINE)
+	return(text)
 
 def ReadTweets(keywords_id):
 	try:
@@ -20,6 +22,7 @@ def ReadTweets(keywords_id):
 			c = 0
 			tso.set_keywords([keywords_id])
 			for tweet in ts.search_tweets_iterable(tso):
+				tweet_text = {}
 				if c <= 100:
 					# print( '@%s tweeted: %s' % ( tweet['user']['screen_name'], tweet['text']))
 					result.append(remove_urls(tweet['text'].replace('@', '').replace('RT', '')))

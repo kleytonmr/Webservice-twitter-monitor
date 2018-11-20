@@ -25,17 +25,21 @@ modelo = MultinomialNB()
 modelo.fit(freq_tweets,classes)
 
 def setKeyword(key):
-	positive = negative = neutral =0
+	positive = negative = neutral = 0
 	
 	freq_tests = vectorizer.transform(t.ReadTweets(key))
 	for i in modelo.predict(freq_tests):
+		score_positive = {}
+		score_negative = {}
+		score_neutral  = {}
 		if i == 0:
 			neutral = neutral + 1
 		elif i == 1:
 			positive = positive  + 1
 		else:
 			negative = negative + 1
-	return  {'Neutral':neutral, 'Positive':positive, 'Negative': negative}
+
+	return  positive, negative, neutral
 		
 
 
