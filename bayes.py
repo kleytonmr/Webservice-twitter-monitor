@@ -8,14 +8,17 @@ from sklearn import metrics
 from sklearn.model_selection import cross_val_predict
 from json import dumps
 
-# import dataset
-# dataset = pd.read_csv('Tweets_Mg.csv')
-# dataset.count()
-# training_tweets = dataset['Text'].values
-# classes = dataset['Classificacao'].values
+xlsx = pd.ExcelFile('Tweets_Mg.xlsx')
+df = pd.read_excel(xlsx, 'sheet')
+training_tweets = []
+classes = []
 
-training_tweets = ['feliz', 'alegre', 'chorando', 'amando', 'amo', 'triste', 'muito', 'amor']
-classes = [1, 0, -1, 1, 1, -1, 0, 1]
+for i in df.itertuples():
+	training_tweets.append(i.text)
+	classes.append(i.classificacao)
+
+# training_tweets = ['feliz', 'alegre', 'chorando', 'amando', 'amo', 'triste', 'muito', 'amor']
+# classes = [1, 0, -1, 1, 1, -1, 0, 1]
 
 vectorizer = CountVectorizer(analyzer="word")
 freq_tweets = vectorizer.fit_transform(training_tweets)
@@ -24,10 +27,10 @@ modelo = MultinomialNB()
 # training database
 modelo.fit(freq_tweets,classes)
 
-def setKeyword(key):
+def setKeyword(data):
 	positive = negative = neutral = 0
 	
-	freq_tests = vectorizer.transform(t.ReadTweets(key))
+	freq_tests = vectorizer.transform(data)
 	for i in modelo.predict(freq_tests):
 		score_positive = {}
 		score_negative = {}

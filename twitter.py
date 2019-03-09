@@ -22,8 +22,7 @@ def ReadTweets(keywords_id):
 			c = 0
 			tso.set_keywords([keywords_id])
 			for tweet in ts.search_tweets_iterable(tso):
-				tweet_text = {}
-				if c <= 100:
+				if c <= 500:
 					# print( '@%s tweeted: %s' % ( tweet['user']['screen_name'], tweet['text']))
 					result.append(remove_urls(tweet['text'].replace('@', '').replace('RT', '')))
 				else:
